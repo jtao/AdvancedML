@@ -14403,19 +14403,19 @@ and <a href="https://jakevdp.github.io/PythonDataScienceHandbook/">the Python Da
 <li><p><a href="https://colab.research.google.com/github/jtao/handson-ml2/blob/master/09_unsupervised_learning.ipynb">Unsupervised Learning</a></p>
 </li>
 </ul>
-<p><a href="https://colab.research.google.com/github/jtao/handson-ml2/blob/master/09_unsupervised_learning.ipynb"><img src="images/colab-badge.png" width="200"/></a></p>
+<p><a href="https://colab.research.google.com/github/jtao/AdvancedML/blob/main/Clustering_methods.ipynb"><img src="images/colab-badge.png" width="200"/></a></p>
 
 </div>
 </div></section></section><section><section>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="K-Means---Overview">K-Means - Overview<a class="anchor-link" href="#K-Means---Overview">&#182;</a></h2><p>K-means clustering is a simple and elegant approach for partitioning a data set into K distinct, non-overlapping clusters. To perform K-means clustering, we must first specify the desired number of clusters K; then the K-means algorithm will assign each observation to exactly one of the K clusters.</p>
+<h2 id="K-Means">K-Means<a class="anchor-link" href="#K-Means">&#182;</a></h2><p>K-means clustering is a simple and elegant approach for partitioning a data set into K distinct, non-overlapping clusters. To perform K-means clustering, we must first specify the desired number of clusters K; then the K-means algorithm will assign each observation to exactly one of the K clusters.</p>
 <center><img src="images/KMeans.png" width="300" /></center>
 </div>
 </div></section></section><section><section>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="K-means---Definition-(1)">K-means - Definition (1)<a class="anchor-link" href="#K-means---Definition-(1)">&#182;</a></h2><p>The K-means clustering procedure results from a simple and intuitive mathematical problem. We begin by defining some notation. Let $C_1 , \ldots , C_K$ denote sets containing the indices of the observations in each cluster. These sets satisfy two properties:</p>
+<h3 id="K-means---Definition-(1)">K-means - Definition (1)<a class="anchor-link" href="#K-means---Definition-(1)">&#182;</a></h3><p>The K-means clustering procedure results from a simple and intuitive mathematical problem. We begin by defining some notation. Let $C_1 , \ldots , C_K$ denote sets containing the indices of the observations in each cluster. These sets satisfy two properties:</p>
 <ol>
 <li>$C_1 \cup C_2 \cup ... \cup C_K = \{1,...,n\}$. In other words, each observation belongs to at least one of the K clusters.</li>
 <li>$C_k \cap C_k′ = \emptyset$ for all $k \neq k′$. In other words, the clusters are non-overlapping: no observation belongs to more than one cluster.</li>
@@ -14425,7 +14425,7 @@ and <a href="https://jakevdp.github.io/PythonDataScienceHandbook/">the Python Da
 </div></section></section><section><section>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="K-means---Definition-(2)">K-means - Definition (2)<a class="anchor-link" href="#K-means---Definition-(2)">&#182;</a></h2><p>For instance, if the $i$th observation is in the $k$th cluster, then $i \in C_k$. The idea behind K-means clustering is that a good clustering is one for which the within-cluster variation is as small as possible. The within-cluster variation for cluster $C_k$ is a measure $W (C_k)$ of the amount by which the observations within a cluster differ from each other. Hence we want to solve the problem
+<h3 id="K-means---Definition-(2)">K-means - Definition (2)<a class="anchor-link" href="#K-means---Definition-(2)">&#182;</a></h3><p>For instance, if the $i$th observation is in the $k$th cluster, then $i \in C_k$. The idea behind K-means clustering is that a good clustering is one for which the within-cluster variation is as small as possible. The within-cluster variation for cluster $C_k$ is a measure $W (C_k)$ of the amount by which the observations within a cluster differ from each other. Hence we want to solve the problem
 $$\underset{C_1, C_2 , ...,  C_K}{\text{minimize}} \Big\{\sum_{k=1}^K W(C_k)\Big\}$$
 In words, this formula says that we want to partition the observations into K clusters such that the total within-cluster variation, summed over all K clusters, is as small as possible.</p>
 
@@ -14433,7 +14433,7 @@ In words, this formula says that we want to partition the observations into K cl
 </div></section></section><section><section>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="K-Means-Algorithm">K-Means Algorithm<a class="anchor-link" href="#K-Means-Algorithm">&#182;</a></h2><p>K-means <strong>algorithm</strong> is the most popular and yet simplest of all the clustering algorithms. Here is how it works:</p>
+<h3 id="K-Means-Algorithm">K-Means Algorithm<a class="anchor-link" href="#K-Means-Algorithm">&#182;</a></h3><p>K-means <strong>algorithm</strong> is the most popular and yet simplest of all the clustering algorithms. Here is how it works:</p>
 <ol>
 <li>Select the number of clusters  $k$ that you think is the optimal number.</li>
 <li>Initialize $k$ points as "centroids" randomly within the space of our data.</li>
@@ -14446,7 +14446,7 @@ In words, this formula says that we want to partition the observations into K cl
 </div></section></section><section><section>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="Implementation">Implementation<a class="anchor-link" href="#Implementation">&#182;</a></h2><p>This algorithm is easy to describe and visualize. We begin with a simple simulated example in which there truly are three clusters with totally 1500 points in the data: 
+<h3 id="Implementation">Implementation<a class="anchor-link" href="#Implementation">&#182;</a></h3><p>This algorithm is easy to describe and visualize. We begin with a simple simulated example in which there truly are three clusters with totally 1500 points in the data: 
 $$X_1\sim \mathcal{N}\left(\begin{pmatrix}0\\0\end{pmatrix}, \begin{pmatrix}0.8^2&amp;0\\0&amp;0.8^2\end{pmatrix}\right),$$
 $$ X_2\sim \mathcal{N}\left(\begin{pmatrix}2\\-1\end{pmatrix}, \begin{pmatrix}0.5^2&amp;0\\0&amp;0.5^2\end{pmatrix}\right),$$
 $$X_3\sim \mathcal{N}\left(\begin{pmatrix}-1\\2\end{pmatrix}, \begin{pmatrix}0.2^2&amp;0\\0&amp;0.2^2\end{pmatrix}\right),$$</p>
@@ -14730,7 +14730,7 @@ $$X_3\sim \mathcal{N}\left(\begin{pmatrix}-1\\2\end{pmatrix}, \begin{pmatrix}0.2
 </div></section></section><section><section>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="Real-data-example:-Iris-dataset">Real data example: Iris dataset<a class="anchor-link" href="#Real-data-example:-Iris-dataset">&#182;</a></h2><ul>
+<h3 id="Real-data-examples">Real data examples<a class="anchor-link" href="#Real-data-examples">&#182;</a></h3><h4 id="Iris-dataset">Iris dataset<a class="anchor-link" href="#Iris-dataset">&#182;</a></h4><ul>
 <li><p>The Iris data set can be imported from the sklearn module. This data sets consists of 3 different types of irises’ (Setosa, Versicolour, and Virginica) petal and sepal length, stored in a 150x4 numpy.ndarray</p>
 </li>
 <li><p>The rows being the samples and the columns being: Sepal Length, Sepal Width, Petal Length and Petal Width.</p>
@@ -14941,7 +14941,7 @@ $$X_3\sim \mathcal{N}\left(\begin{pmatrix}-1\\2\end{pmatrix}, \begin{pmatrix}0.2
 </div></section></section><section><section>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="Real-data-example:-Mall-Customers">Real data example: Mall Customers<a class="anchor-link" href="#Real-data-example:-Mall-Customers">&#182;</a></h2><p>Source:
+<h4 id="Mall-Customers">Mall Customers<a class="anchor-link" href="#Mall-Customers">&#182;</a></h4><p>Source:
  <a href="https://www.kaggle.com/vjchoudhary7/customer-segmentation-tutorial-in-python">https://www.kaggle.com/vjchoudhary7/customer-segmentation-tutorial-in-python</a></p>
 <p>Suppose you are owing a supermarket mall and through membership cards , you have some basic data about your customers like Customer ID, age, gender, annual income and spending score.
 Spending Score is something you assign to the customer based on your defined parameters like customer behavior and purchasing data.</p>
@@ -15203,7 +15203,7 @@ You own the mall and want to understand the customers like who can be easily con
 </div></div></section></section><section><section>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="The-Elbow-Method">The Elbow Method<a class="anchor-link" href="#The-Elbow-Method">&#182;</a></h2><p>Calculate the Within-Cluster-Sum of Squared Errors (WSS) for different values of k, and choose the k for which WSS becomes first starts to diminish. In the plot of WSS-versus-k, this is visible as an elbow.</p>
+<h3 id="The-Elbow-Method">The Elbow Method<a class="anchor-link" href="#The-Elbow-Method">&#182;</a></h3><p>Calculate the Within-Cluster-Sum of Squared Errors (WSS) for different values of k, and choose the k for which WSS becomes first starts to diminish. In the plot of WSS-versus-k, this is visible as an elbow.</p>
 <ol>
 <li>The Squared Error for each point is the square of the distance of the point from its representation i.e. its predicted cluster center.</li>
 <li>The WSS score is the sum of these Squared Errors for all the points.</li>
@@ -15350,7 +15350,7 @@ You own the mall and want to understand the customers like who can be easily con
 </div></section></section><section><section>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="Real-data-example:-Color-Compression">Real data example: Color Compression<a class="anchor-link" href="#Real-data-example:-Color-Compression">&#182;</a></h2><p>One interesting application of clustering is in color compression within images. For example, imagine you have an image with millions of colors. In most images, a large number of the colors will be unused, and many of the pixels in the image will have similar or even identical colors.</p>
+<h3 id="Real-data-example">Real data example<a class="anchor-link" href="#Real-data-example">&#182;</a></h3><h4 id="Color-Compression">Color Compression<a class="anchor-link" href="#Color-Compression">&#182;</a></h4><p>One interesting application of clustering is in color compression within images. For example, imagine you have an image with millions of colors. In most images, a large number of the colors will be unused, and many of the pixels in the image will have similar or even identical colors.</p>
 <p>For example, consider the image shown in the following figure, which is from the Scikit-Learn datasets module (for this to work, you'll have to have the pillow Python package installed).</p>
 
 </div>
@@ -15729,7 +15729,7 @@ You own the mall and want to understand the customers like who can be easily con
 </div></section></section><section><section>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="Implement">Implement<a class="anchor-link" href="#Implement">&#182;</a></h2><ul>
+<h3 id="Implement">Implement<a class="anchor-link" href="#Implement">&#182;</a></h3><ul>
 <li>Agglomerative Clustering - recursively merges the pair of clusters that minimally increases a given linkage distance.<center><img src="images/sphx_glr_plot_linkage_comparison_001.png" width="400" /></center></li>
 </ul>
 
@@ -15880,7 +15880,7 @@ You own the mall and want to understand the customers like who can be easily con
 </div></section></section><section><section>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="Real-data-example:-Iris-dataset">Real data example: Iris dataset<a class="anchor-link" href="#Real-data-example:-Iris-dataset">&#182;</a></h2>
+<h3 id="Real-data-example">Real data example<a class="anchor-link" href="#Real-data-example">&#182;</a></h3><h4 id="Iris-dataset">Iris dataset<a class="anchor-link" href="#Iris-dataset">&#182;</a></h4>
 </div>
 </div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
@@ -15988,7 +15988,7 @@ You own the mall and want to understand the customers like who can be easily con
 </div></section></section><section><section>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="Real-data-example:-Mall-customers">Real data example: Mall customers<a class="anchor-link" href="#Real-data-example:-Mall-customers">&#182;</a></h2>
+<h4 id="Mall-customers">Mall customers<a class="anchor-link" href="#Mall-customers">&#182;</a></h4>
 </div>
 </div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
@@ -16059,7 +16059,7 @@ a mean $\mu_m$ and covariance matrix $\Sigma_m$.</p>
 </div></section></section><section><section>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="Implement">Implement<a class="anchor-link" href="#Implement">&#182;</a></h2><p>We take the iris dataset as the example. Firsty, we import the function <code>GaussianMixture</code> from the module <code>sklearn.mixture</code>.</p>
+<h3 id="Implement">Implement<a class="anchor-link" href="#Implement">&#182;</a></h3><p>We take the iris dataset as the example. Firsty, we import the function <code>GaussianMixture</code> from the module <code>sklearn.mixture</code>.</p>
 
 </div>
 </div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
@@ -16195,7 +16195,7 @@ a mean $\mu_m$ and covariance matrix $\Sigma_m$.</p>
 </div></section></section><section><section>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="Real-data-example:-Mall-Customers">Real data example: Mall Customers<a class="anchor-link" href="#Real-data-example:-Mall-Customers">&#182;</a></h2>
+<h3 id="Real-data-example">Real data example<a class="anchor-link" href="#Real-data-example">&#182;</a></h3><h4 id="Mall-Customers">Mall Customers<a class="anchor-link" href="#Mall-Customers">&#182;</a></h4>
 </div>
 </div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
@@ -16248,7 +16248,7 @@ a mean $\mu_m$ and covariance matrix $\Sigma_m$.</p>
 </div></div></section></section><section><section>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="Real-data-example:-Cluster-handwritten-digits">Real data example: Cluster handwritten digits<a class="anchor-link" href="#Real-data-example:-Cluster-handwritten-digits">&#182;</a></h2><p>Here we will run with the GMM idea and generate new handwritten digits from the standard digits corpus that we have used before.</p>
+<h4 id="Cluster-handwritten-digits">Cluster handwritten digits<a class="anchor-link" href="#Cluster-handwritten-digits">&#182;</a></h4><p>Here we will run with the GMM idea and generate new handwritten digits from the standard digits corpus that we have used before.</p>
 <p>To start with, let's load the digits data using Scikit-Learn's data tools:</p>
 
 </div>
@@ -16594,7 +16594,7 @@ a mean $\mu_m$ and covariance matrix $\Sigma_m$.</p>
 </div></section></section><section><section>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="Implement">Implement<a class="anchor-link" href="#Implement">&#182;</a></h2>
+<h3 id="Implement">Implement<a class="anchor-link" href="#Implement">&#182;</a></h3>
 </div>
 </div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
@@ -16776,7 +16776,7 @@ Silhouette Coefficient: 0.626
 </div></section></section><section><section>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="Rand-index">Rand index<a class="anchor-link" href="#Rand-index">&#182;</a></h2><h3 id="Mathematical-formulation">Mathematical formulation<a class="anchor-link" href="#Mathematical-formulation">&#182;</a></h3><p>If $C$ is a ground truth class assignment and $K$ the clustering, let us
+<h3 id="Rand-index">Rand index<a class="anchor-link" href="#Rand-index">&#182;</a></h3><h4 id="Mathematical-formulation">Mathematical formulation<a class="anchor-link" href="#Mathematical-formulation">&#182;</a></h4><p>If $C$ is a ground truth class assignment and $K$ the clustering, let us
 define $a$ and $b$ as:</p>
 <ul>
 <li><p>$a$, the number of pairs of elements that are in the same set
@@ -16811,7 +16811,7 @@ $$\text{ARI} = \frac{\text{RI} - E[\text{RI}]}{\max(\text{RI}) - E[\text{RI}]}$$
 </div></section></section><section><section>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="Implement">Implement<a class="anchor-link" href="#Implement">&#182;</a></h2><p>Given the knowledge of the ground truth class assignments <code>labels_true</code> and our clustering algorithm assignments of the same samples <code>labels_pred</code>, the adjusted  Rand index is a function that measures the similarity of the two assignments, ignoring permutations:</p>
+<h4 id="Implement">Implement<a class="anchor-link" href="#Implement">&#182;</a></h4><p>Given the knowledge of the ground truth class assignments <code>labels_true</code> and our clustering algorithm assignments of the same samples <code>labels_pred</code>, the adjusted  Rand index is a function that measures the similarity of the two assignments, ignoring permutations:</p>
 
 </div>
 </div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
@@ -16989,109 +16989,7 @@ $$\text{ARI} = \frac{\text{RI} - E[\text{RI}]}{\max(\text{RI}) - E[\text{RI}]}$$
 </div></div></section></section><section><section>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="Mutual-Information-based-scores">Mutual Information based scores<a class="anchor-link" href="#Mutual-Information-based-scores">&#182;</a></h2><h3 id="Mathematical-formulation">Mathematical formulation<a class="anchor-link" href="#Mathematical-formulation">&#182;</a></h3><p>Assume two label assignments (of the same N objects), $U$ and $V$.
-Their entropy is the amount of uncertainty for a partition set, defined by:</p>
-$$H(U) = - \sum_{i=1}^{|U|}P(i)\log(P(i))$$<p>where $P(i) = |U_i| / N$ is the probability that an object picked at
-random from $U$ falls into class $U_i$. Likewise for $V$:</p>
-$$H(V) = - \sum_{j=1}^{|V|}P'(j)\log(P'(j))$$
-</div>
-</div></section><section>
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>With $P'(j) = |V_j| / N$. The mutual information (MI) between $U$
-and $V$ is calculated by:</p>
-$$\text{MI}(U, V) = \sum_{i=1}^{|U|}\sum_{j=1}^{|V|}P(i, j)\log\left(\frac{P(i,j)}{P(i)P'(j)}\right)$$<p>where $P(i, j) = |U_i \cap V_j| / N$ is the probability that an object
-picked at random falls into both classes $U_i$ and $V_j$.</p>
-<p>It also can be expressed in set cardinality formulation:</p>
-$$ \text{MI}(U, V) = \sum_{i=1}^{|U|} \sum_{j=1}^{|V|} \frac{|U_i \cap V_j|}{N}\log\left(\frac{N|U_i \cap V_j|}{|U_i||V_j|}\right)$$
-</div>
-</div></section><section>
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>The normalized mutual information is defined as</p>
-$$ \text{NMI}(U, V) = \frac{\text{MI}(U, V)}{\text{mean}(H(U), H(V))}$$<p>This value of the mutual information and also the normalized variant is not
-adjusted for chance and will tend to increase as the number of different labels
-(clusters) increases, regardless of the actual amount of "mutual information"
-between the label assignments.</p>
-<p>The expected value for the mutual information can be calculated using the
-following equation. In this equation,
-$`a_i = |U_i|$ (the number of elements in $U_i$) and
-$b_j = |V_j|$ (the number of elements in $V_j$).</p>
-$$ E[\text{MI}(U,V)]=\sum_{i=1}^{|U|} \sum_{j=1}^{|V|} \sum_{n_{ij}=(a_i+b_j-N)^+
-   }^{\min(a_i, b_j)} \frac{n_{ij}}{N}\log \left( \frac{ N.n_{ij}}{a_i b_j}\right)
-   \frac{a_i!b_j!(N-a_i)!(N-b_j)!}{N!n_{ij}!(a_i-n_{ij})!(b_j-n_{ij})!
-   (N-a_i-b_j+n_{ij})!}$$
-</div>
-</div></section></section><section><section>
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>Using the expected value, the adjusted mutual information can then be
-calculated using a similar form to that of the adjusted Rand index:</p>
-$$ \text{AMI} = \frac{\text{MI} - E[\text{MI}]}{\text{mean}(H(U), H(V)) - E[\text{MI}]}$$<p>For normalized mutual information and adjusted mutual information, the normalizing
-value is typically some <em>generalized</em> mean of the entropies of each clustering.
-Various generalized means exist, and no firm rules exist for preferring one over the
-others.  The decision is largely a field-by-field basis; for instance, in community
-detection, the arithmetic mean is most common. Each
-normalizing method provides "qualitatively similar behaviours".</p>
-
-</div>
-</div></section></section><section><section>
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h3 id="Implement">Implement<a class="anchor-link" href="#Implement">&#182;</a></h3><p>Given the knowledge of the ground truth class assignments labels_true and our clustering algorithm assignments of the same samples labels_pred, the Mutual Information is a function that measures the agreement of the two assignments, ignoring permutations. Two different normalized versions of this measure are available, Normalized Mutual Information (NMI) and Adjusted Mutual Information (AMI). NMI is often used in the literature, while AMI was proposed more recently and is normalized against chance:</p>
-
-</div>
-</div></section></section><section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[273]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">metrics</span>
-<span class="n">labels_true</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
-<span class="n">labels_pred</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
-
-<span class="n">metrics</span><span class="o">.</span><span class="n">adjusted_mutual_info_score</span><span class="p">(</span><span class="n">labels_true</span><span class="p">,</span> <span class="n">labels_pred</span><span class="p">)</span> 
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
-
-<div class="jp-Cell-outputWrapper">
-
-
-<div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[273]:</div>
-
-
-
-
-<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
-<pre>0.29879245817089006</pre>
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-</div><div class="fragment">
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>Similarly to ARI, one can permute 0 and 1 in the predicted labels, rename 2 to 3 and get the same score; swapping the argument does not change the score; Perfect labeling is scored 1.0.</p>
-
-</div>
-</div></div></section></section><section><section>
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="Homogeneity,-completeness-and-V-measure">Homogeneity, completeness and V-measure<a class="anchor-link" href="#Homogeneity,-completeness-and-V-measure">&#182;</a></h2><p>Given the knowledge of the ground truth class assignments of the samples, it is possible to define some intuitive metric using conditional entropy analysis.</p>
+<h3 id="Homogeneity,-completeness-and-V-measure">Homogeneity, completeness and V-measure<a class="anchor-link" href="#Homogeneity,-completeness-and-V-measure">&#182;</a></h3><p>Given the knowledge of the ground truth class assignments of the samples, it is possible to define some intuitive metric using conditional entropy analysis.</p>
 <p>In particular Rosenberg and Hirschberg (2007) define the following two desirable objectives for any cluster assignment:</p>
 <p>homogeneity: each cluster contains only members of a single class.</p>
 <p>completeness: all members of a given class are assigned to the same cluster.</p>
@@ -17100,7 +16998,7 @@ normalizing method provides "qualitatively similar behaviours".</p>
 </div></section></section><section><section>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h3 id="Mathematical-formulation">Mathematical formulation<a class="anchor-link" href="#Mathematical-formulation">&#182;</a></h3><p>Homogeneity and completeness scores are formally given by:</p>
+<h4 id="Mathematical-formulation">Mathematical formulation<a class="anchor-link" href="#Mathematical-formulation">&#182;</a></h4><p>Homogeneity and completeness scores are formally given by:</p>
 $$ h = 1 - \frac{H(C|K)}{H(C)}$$$$ c = 1 - \frac{H(K|C)}{H(K)}$$<p>where $H(C|K)$ is the <strong>conditional entropy of the classes given
 the cluster assignments</strong> and is given by:</p>
 $$ H(C|K) = - \sum_{c=1}^{|C|} \sum_{k=1}^{|K|} \frac{n_{c,k}}{n}
@@ -17124,7 +17022,7 @@ $$v = \frac{(1+\beta)\times homogeneity \times completeness}{\beta \times homoge
 </div></section></section><section><section>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="Implement">Implement<a class="anchor-link" href="#Implement">&#182;</a></h2><p>We can turn the  concept of <strong>homogeneity</strong> and <strong>completeness</strong>  as scores <code>homogeneity_score</code> and <code>completeness_score</code>. Both are bounded below by 0.0 and above by 1.0 (higher is better). Their harmonic mean called V-measure is computed by <code>v_measure_score</code>:</p>
+<h4 id="Implement">Implement<a class="anchor-link" href="#Implement">&#182;</a></h4><p>We can turn the  concept of <strong>homogeneity</strong> and <strong>completeness</strong>  as scores <code>homogeneity_score</code> and <code>completeness_score</code>. Both are bounded below by 0.0 and above by 1.0 (higher is better). Their harmonic mean called V-measure is computed by <code>v_measure_score</code>:</p>
 
 </div>
 </div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
@@ -17264,10 +17162,10 @@ $$v = \frac{(1+\beta)\times homogeneity \times completeness}{\beta \times homoge
 
 </div>
 
-</div>
+</div></div></section></section><section><section>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="Fowlkes-Mallows-scores">Fowlkes-Mallows scores<a class="anchor-link" href="#Fowlkes-Mallows-scores">&#182;</a></h2><p>The Fowlkes-Mallows index can be
+<h3 id="Fowlkes-Mallows-scores">Fowlkes-Mallows scores<a class="anchor-link" href="#Fowlkes-Mallows-scores">&#182;</a></h3><p>The Fowlkes-Mallows index can be
 used when the ground truth class assignments of the samples is known. The
 Fowlkes-Mallows score FMI is defined as the geometric mean of the
 pairwise precision and recall:</p>
@@ -17280,13 +17178,13 @@ number of pair of points that belongs in the same clusters in the predicted
 labels and not in the true labels).</p>
 
 </div>
-</div>
+</div></section></section><section><section>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h3 id="Implement">Implement<a class="anchor-link" href="#Implement">&#182;</a></h3><p>The score ranges from 0 to 1. A high value indicates a good similarity between two clusters.</p>
+<h4 id="Implement">Implement<a class="anchor-link" href="#Implement">&#182;</a></h4><p>The score ranges from 0 to 1. A high value indicates a good similarity between two clusters.</p>
 
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+</div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[277]:</div>
@@ -17323,20 +17221,6 @@ labels and not in the true labels).</p>
 
 </div>
 
-</div>
-
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span> 
-</pre></div>
-
-     </div>
-</div>
-</div>
 </div>
 
 </div></div></section></section>
